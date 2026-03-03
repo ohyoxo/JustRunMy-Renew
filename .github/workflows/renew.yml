@@ -1,0 +1,51 @@
+name: JustRunMy Auto Renew
+
+on:
+  # 定时任务：每天 UTC 时间凌晨 2 点运行 (北京时间上午 10 点)
+  schedule:
+    - cron: '0 2 */2 * *'
+  # 允许在 GitHub 网页端手动点击按钮触发
+  workflow_dispatch: 
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install System Dependencies (Xvfb & xdotool)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xdotool xvfb dbus-x11
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install seleniumbase
+          # SeleniumBase 自带下载浏览器的功能，但手动装一下以防万一
+          seleniumbase install chromedriver 
+
+      - name: Run Renew Script
+        env:
+          JUSTRUNMY_EMAIL: ${{ secrets.JUSTRUNMY_EMAIL }}
+          JUSTRUNMY_PASSWORD: ${{ secrets.JUSTRUNMY_PASSWORD }}
+          JUSTRUNMY_APP_NAME: ${{ secrets.JUSTRUNMY_APP_NAME }}
+          JUSTRUNMY_PROXY: ${{ secrets.JUSTRUNMY_PROXY }}
+        run: |
+          # 使用 xvfb-run 启动虚拟显示器，分辨率设为 1080p
+          xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python3 justrunmy_renew.py
+
+      - name: Upload Screenshots on Failure
+        uses: actions/upload-artifact@v4
+        if: always() # 无论成功还是失败，都收集截图以便排错
+        with:
+          name: debug-screenshots
+          path: ./*.png
+          retention-days: 3 # 截图保留 3 天
