@@ -2,8 +2,6 @@
 
 这是一个基于 GitHub Actions 的自动化脚本，用于定时登录并自动续期 JustRunMy 应用。
 
-为了保护账号和代理安全，所有敏感信息均通过 GitHub Secrets 进行配置。
-
 ━━━━━━━━━━━━━━━━━━━━━━
 
 🔐 Secrets 配置说明
