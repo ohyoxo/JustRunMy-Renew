@@ -8,11 +8,10 @@
 
 | Secret 名称         | 是否必填 | 说明                                              |
 |---------------------|----------|---------------------------------------------------|
-| JUSTRUNMY_EMAIL     | ✅ 必填  | JustRunMy 登录邮箱                                |
-| JUSTRUNMY_PASSWORD  | ✅ 必填  | JustRunMy 登录密码                                |
-| GOST_PROXY_TARGET   | ❌ 可选  | Gost 代理完整地址（需包含协议，如 socks5://）     |
-| TG_BOT_TOKEN        | ❌ 可选  | Telegram Bot Token（用于发送通知）                |
-| TG_CHAT_ID          | ❌ 可选  | Telegram Chat ID（接收通知的用户或群组 ID）        |
+| JUSTRUNMY_ACCOUNT     | ✅ 必填  | your@email.com,yourpassword                                |
+| PRIVATE_REPO_TOKEN  | ✅ 必填  | github_pat_xxxxxx                                |
+| GOST_PROXY   | ❌ 可选  | Gost 代理完整地址（需包含协议，如 socks5://）     |
+| TG_BOT        | ❌ 可选  | chat_id,bot_token（可选）                |
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
